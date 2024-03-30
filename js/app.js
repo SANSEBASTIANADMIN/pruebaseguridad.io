@@ -171,6 +171,8 @@ formulario.addEventListener("submit", (e) => {
 
 
                         document.getElementById('fechavisita').setAttribute('min', today);
+                        document.getElementById('fechareserva').setAttribute('min', today);
+
                         document.getElementById("divbotonhistorico").addEventListener("click", updatePaymentHistory);
                         document.getElementById("divbotonpago").addEventListener("click", redireccionarPagos);
                         document.getElementById("divregreso").addEventListener("click", regresar);
@@ -554,13 +556,21 @@ formulario.addEventListener("submit", (e) => {
 });
 
 
-function removeSpecialCharacters(input) {
-    input.value = input.value.replace(/[^A-Za-z0-9\s]/g, '');
+
+function togglePasswordVisibility() {
+    var passwordInput = document.getElementById("contrasena");
+    var eyeIcon = document.querySelector(".toggle-password svg");
+
+    if (passwordInput.type === "password") {
+        passwordInput.type = "text";
+        eyeIcon.classList.remove("bi-eye");
+        eyeIcon.classList.add("bi-eye-slash");
+    } else {
+        passwordInput.type = "password";
+        eyeIcon.classList.remove("bi-eye-slash");
+        eyeIcon.classList.add("bi-eye");
+    }
 }
-  
-
-  
-
   
 
 
