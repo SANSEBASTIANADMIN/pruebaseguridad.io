@@ -35,7 +35,7 @@ const sep2023Span = document.getElementById("sep2023");
 const oct2023Span = document.getElementById("oct2023");
 const nov2023Span = document.getElementById("nov2023");
 const dic2023Span = document.getElementById("dic2023");
-const selectYear = document.getElementById("selectYear"); // Cambiado de value a selectYear
+const selectYear = document.getElementById("selectYear"); 
 const tags = document.getElementById("tags");
 const paymentHistory2024 = document.getElementById("paymentHistory2024");
 const homepage = document.getElementById("homepage");
@@ -64,11 +64,8 @@ var today = new Date().toISOString().split('T')[0];
 var loggedIn = true
 
 function cifrarCorreo(valor) {
-    // Convertir el valor a texto JSON para cifrar correctamente
     var texto = JSON.stringify(valor);
-    // Obtener bytes del texto
     var bytes = new TextEncoder().encode(texto);
-    // Cifrar en Base64
     var cifrado = btoa(String.fromCharCode.apply(null, bytes));
     return cifrado;
 }
@@ -115,12 +112,11 @@ formulario.addEventListener("submit", (e) => {
                     if (contraseñaCifrada === contraseñaCifradoInput) {
                         console.log("Inicio de sesión exitoso");
 
-                        console.log(indice)
-                        const cliente = atob(data[indice].Cliente); // Accede directamente al cliente en lugar de usar map
-                        console.log(cliente);
+                        const cliente = atob(data[indice].Cliente);
+                        const clientecod = data[indice].Cliente; // Accede directamente al cliente en lugar de usar map
 
                         const domicilio = atob(data[indice].dom); // Accede directamente al domicilio en lugar de usar map
-                        console.log(domicilio);
+                        const domiciliocod = data[indice].dom; // Accede directamente al domicilio en lugar de usar map
 
                         const tag1 = atob(data[indice].tag1);
                         const tag2 = atob(data[indice].tag2);
@@ -129,31 +125,32 @@ formulario.addEventListener("submit", (e) => {
                         const tag5 = atob(data[indice].tag5);
                         const tag6 = atob(data[indice].tag6);
                         const status = atob(data[indice].status);
+                        const statuscod = data[indice].status;
 
-                        ene2023Span.textContent = atob(data[indice].ene2023);
-                        feb2023Span.textContent = atob(data[indice].feb2023);
-                        mar2023Span.textContent = atob(data[indice].mar2023);
-                        abr2023Span.textContent = atob(data[indice].abr2023);
-                        may2023Span.textContent = atob(data[indice].may2023);
-                        jun2023Span.textContent = atob(data[indice].jun2023);
-                        jul2023Span.textContent = atob(data[indice].jul2023);
-                        ago2023Span.textContent = atob(data[indice].ago2023);
-                        sep2023Span.textContent = atob(data[indice].sep2023);
-                        oct2023Span.textContent = atob(data[indice].oct2023);
-                        nov2023Span.textContent = atob(data[indice].nov2023);
-                        dic2023Span.textContent = atob(data[indice].dic2023);
-                        ene2024Span.textContent = atob(data[indice].ene2024);
-                        feb2024Span.textContent = atob(data[indice].feb2024);
-                        mar2024Span.textContent = atob(data[indice].mar2024);
-                        abr2024Span.textContent = atob(data[indice].abr2024);
-                        may2024Span.textContent = atob(data[indice].may2024);
-                        jun2024Span.textContent = atob(data[indice].jun2024);
-                        jul2024Span.textContent = atob(data[indice].jul2024);
-                        ago2024Span.textContent = atob(data[indice].ago2024);
-                        sep2024Span.textContent = atob(data[indice].sep2024);
-                        oct2024Span.textContent = atob(data[indice].oct2024);
-                        nov2024Span.textContent = atob(data[indice].nov2024);
-                        dic2024Span.textContent = atob(data[indice].dic2024);
+                        ene2023Span.textContent = (data[indice].ene2023);
+                        feb2023Span.textContent = (data[indice].feb2023);
+                        mar2023Span.textContent = (data[indice].mar2023);
+                        abr2023Span.textContent = (data[indice].abr2023);
+                        may2023Span.textContent = (data[indice].may2023);
+                        jun2023Span.textContent = (data[indice].jun2023);
+                        jul2023Span.textContent = (data[indice].jul2023);
+                        ago2023Span.textContent = (data[indice].ago2023);
+                        sep2023Span.textContent = (data[indice].sep2023);
+                        oct2023Span.textContent = (data[indice].oct2023);
+                        nov2023Span.textContent = (data[indice].nov2023);
+                        dic2023Span.textContent = (data[indice].dic2023);
+                        ene2024Span.textContent = (data[indice].ene2024);
+                        feb2024Span.textContent = (data[indice].feb2024);
+                        mar2024Span.textContent = (data[indice].mar2024);
+                        abr2024Span.textContent = (data[indice].abr2024);
+                        may2024Span.textContent = (data[indice].may2024);
+                        jun2024Span.textContent = (data[indice].jun2024);
+                        jul2024Span.textContent = (data[indice].jul2024);
+                        ago2024Span.textContent = (data[indice].ago2024);
+                        sep2024Span.textContent = (data[indice].sep2024);
+                        oct2024Span.textContent = (data[indice].oct2024);
+                        nov2024Span.textContent = (data[indice].nov2024);
+                        dic2024Span.textContent = (data[indice].dic2024);
                         
 
                         propietarioSpan.textContent = cliente;
@@ -184,8 +181,8 @@ formulario.addEventListener("submit", (e) => {
                         document.getElementById("nuevoregistro").addEventListener("click", nuevoregistro);
                         document.getElementById("divbotonreservar").addEventListener("click", calendario);
                         document.getElementById("confirmarreserca").addEventListener("click", registrarReserva);
+                        document.getElementById("misreservsas").addEventListener("click", toggleMisReservas);
 
-                    
                         function updatePaymentHistory() {
                                     paymentHistory2024.style.display = "block";
                                     tags.style.display = "none";
@@ -198,25 +195,25 @@ formulario.addEventListener("submit", (e) => {
                         }
 
                         function registrarReserva() {
-                            const domicilio = domicilioSpan.textContent;
-                            const propietario = propietarioSpan.textContent;
-                            const status = statusSpan.textContent;
                             const fechareserva = document.getElementById("fechareserva").value;
                             const horaInicio = document.getElementById("horaInicio").value;
                             const horaFin = document.getElementById("horaFin").value;
                             const tiporeserva = document.getElementById("tiporeserva").value;
+                            const fechaHoraActual = new Date();
+                            const fechaHoraFormateada = fechaHoraActual.toLocaleString();
+
                             
                             const datos = {
-                                registro: new Date(),
-                                dom: domicilio,
-                                nombre: propietario,
+                                registro: fechaHoraFormateada,
+                                dom: domiciliocod,
+                                nombre: clientecod,
                                 fecha: fechareserva,
                                 amenidad: tiporeserva,
                                 inicio: horaInicio,
                                 fin: horaFin,
                             };
                         
-                            if (status === "Al Corriente") {
+                            if (statuscod === "IkFsIENvcnJpZW50ZSI=") {
                                 
                                 const url = "https://sheet.best/api/sheets/ef7150db-3f89-42e9-8abd-790a804eab30/tabs/reservaciones";
                                 const opciones = {
@@ -291,16 +288,12 @@ formulario.addEventListener("submit", (e) => {
                             fetch("https://sheet.best/api/sheets/ef7150db-3f89-42e9-8abd-790a804eab30/tabs/reservaciones")
                                 .then((response) => response.json())
                                 .then((data) => {
-                                    console.log(domicilio);
-                        
+                                    console.log(domiciliocod);
                                     // Filtrar los registros que coinciden con domicilioSpan
-                                    const registrosFiltrados = data.filter((registro) => registro.dom.startsWith(domicilio));
+                                    const registrosFiltrados = data.filter((registro) => registro.dom.startsWith(domiciliocod));
                                     console.log(registrosFiltrados);
-                        
-                        
                                     // Procesar los datos filtrados y agregarlos a los contenedores de calle
                                     agregarRegistros("divmisreservas", registrosFiltrados);
-                        
                                 })
                                 .catch((error) => {
                                     console.error(error);
@@ -361,9 +354,6 @@ formulario.addEventListener("submit", (e) => {
                             segurichat.style.display = "none";
                             divnuevoregistro.style.display = "none";
                             divamenidades.style.display = "none";
-                        
-                        
-                        
                             borrarElementos();
                         }
                         
@@ -374,7 +364,6 @@ formulario.addEventListener("submit", (e) => {
                             datoscorrectosvisitas.style.display = "block"; 
                             divnuevoregistro.style.display = "block";
                             divregreso.style.display = "block";
-                        
                             const domicilio = domicilioSpan.textContent;
                             const propietario = propietarioSpan.textContent;
                             const namevisitaSpan = document.getElementById("namevisita").value;
@@ -395,8 +384,8 @@ formulario.addEventListener("submit", (e) => {
                             console.log(domicilio, propietario, namevisitaSpan, tipoSpan, fechavisitaSpan, tipoSpan);
                         
                             const datos = {
-                                propietario: propietario,
-                                domicilio: domicilio,
+                                propietario: clientecod,
+                                domicilio: domiciliocod,
                                 namevisita: namevisitaSpan,
                                 fecha: fechavisitaSpan,
                                 tipo: tipoSpan,
@@ -498,7 +487,7 @@ formulario.addEventListener("submit", (e) => {
                             const correo = correoSpan.textContent;
                             const status = statusSpan.textContent;
                         
-                            if (status === "Al Corriente") {
+                            if (statuscod === "IkFsIENvcnJpZW50ZSI=") {
                                 console.log(namevisitaSpan);
                                 console.log(fechavisitaSpan); // Mostrar la fecha formateada
                                 console.log(tipoSpan);
@@ -568,13 +557,6 @@ formulario.addEventListener("submit", (e) => {
 function removeSpecialCharacters(input) {
     input.value = input.value.replace(/[^A-Za-z0-9\s]/g, '');
 }
-
-
-
-
-  
-
-
   
 
   
