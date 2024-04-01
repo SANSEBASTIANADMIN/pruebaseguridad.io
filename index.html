@@ -320,6 +320,29 @@
 				</details>
 			</div>	
 		</div>
+		<div id="divpagos" style="display: none;" class="contenedor">
+			<p class="titulo">Datos Bancarios</p>
+			<p>Banco: SANTANDER</p>
+			<p>Titular: COLONOS SAN SEBASTIAN, A.C.</p>
+			<p>Cuenta: 65509378739</p>
+			<p>CLABE: 014308655093787392</p>
+			<p>Monto: $550.00 M.N.</p>
+			<p> </p>
+			<p> </p>
+			<p class="titulo">Adjunta tu pago<p>
+			<input type="file" id="archivo" accept="application/pdf,image/*" onchange="procesarArchivo()">
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+			<div>
+				<p class="titulo">Datos del Pago</p>
+				<p>Fecha: <span id="fechaPago"></span></p>
+				<p>Monto: <span id="montoPago"></span></p>
+				<p>Beneficiario:<span id="beneficiarioPago"></span></p>
+
+			</div>
+			<p></p>
+			<p></p>
+			<button type="submit" class="btn">Enviar Pago</button>
+		</div>
 		<div id="botones"  style="display: none;">	
 			<div class="contenedor2 button-container">
 				<div id="divbotonhistorico">	
@@ -359,11 +382,12 @@
 					</button>
 				</div>
 			</div>
-
 		</div>
-	</div>
-	<script src="js/app.js"></script>	
-	<!-- Incluir FullCalendar CSS -->
 
+	</div>
+	<!-- v5 -->
+	<script src='https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js'></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.9.359/pdf.min.js"></script>
+	<script src="js/app.js"></script>
 </body>
 </html>
