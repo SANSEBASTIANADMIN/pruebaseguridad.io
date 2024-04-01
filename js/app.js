@@ -46,6 +46,8 @@ const divbotonreservar = document.getElementById("divbotonreservar");
 const divbotonvisitas = document.getElementById("divbotonvisitas");
 const divregreso = document.getElementById("divregreso");
 const divingresos = document.getElementById("divingresos");
+const divpagos = document.getElementById("divpagos");
+
 const btnenviaringreso = document.getElementById("btnenviaringreso");
 const confirmacion = document.getElementById("confirmacion");
 const formulario2 = document.getElementById("formulario2");
@@ -63,15 +65,15 @@ const divmisreservas  = document.getElementById("divmisreservas");
 var today = new Date().toISOString().split('T')[0];
 var loggedIn = true
 
+
+
+
+
 function cifrarCorreo(valor) {
     var texto = JSON.stringify(valor);
     var bytes = new TextEncoder().encode(texto);
     var cifrado = btoa(String.fromCharCode.apply(null, bytes));
     return cifrado;
-}
-
-function redireccionarPagos() {
-    window.location.href = "https://sites.google.com/view/sansebastianprivada/mantenimiento/pagos";
 }
 
 formulario.addEventListener("submit", (e) => {
@@ -520,7 +522,24 @@ formulario.addEventListener("submit", (e) => {
                             divnuevoregistro.style.display = "none";
                             divamenidades.style.display = "none";
                             divreservar.style.display = "none";
+                            divpagos.style.display = "none";
+
                         
+                        }
+
+                        function redireccionarPagos() {
+                            divingresos.style.display = "none";
+                            paymentHistory2024.style.display = "none";
+                            tags.style.display = "none";
+                            divbotonhistorico.style.display = "none";
+                            divbotonpago.style.display = "none";
+                            divbotonreservar.style.display = "none";
+                            divbotonvisitas.style.display = "none";
+                            segurichat.style.display = "none";
+                            divreservar.style.display = "none";
+                            btnenborrar.style.display = "none";
+                            divregreso.style.display = "block";
+                            divpagos.style.display = "block";
                         }
                         
                         function ingresos() {
@@ -571,7 +590,97 @@ function togglePasswordVisibility() {
         eyeIcon.classList.add("bi-eye");
     }
 }
-  
+
+
+
+function procesarArchivo() {
+    const archivo = document.getElementById('archivo').files[0];
+    if (!archivo) {
+        alert('Por favor, seleccione un archivo PDF o una imagen.');
+        return;
+    }
+
+    const lector = new FileReader();
+    lector.onload = function(evento) {
+        const datos = evento.target.result;
+        if (archivo.type === 'application/pdf') {
+            procesarPDF(datos);
+        } else if (archivo.type.startsWith('image/')) {
+            procesarImagen(datos);
+        } else {
+            alert('Tipo de archivo no compatible. Por favor, seleccione un archivo PDF o una imagen.');
+        }
+    };
+    lector.readAsArrayBuffer(archivo);
+}
+
+function procesarPDF(datos) {
+    pdfjsLib.getDocument(datos).promise.then(function(pdf) {
+        pdf.getPage(1).then(function(pagina) {
+            pagina.getTextContent().then(function(contenido) {
+                const texto = contenido.items.map(function(item) {
+                    return item.str;
+                }).join(' ');
+
+                // Buscar el monto
+                const regexMonto = /\$\s?(\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2}))/; // Coincide con el formato de monto: $XXX,XXX.XX o $XXX.XX
+                const montoMatch = texto.match(regexMonto);
+                const monto = montoMatch ? montoMatch[1] : null;
+
+                // Buscar la fecha
+                const regexFecha = /(\d{1,2}\s+de\s+[a-zA-Z]+\s+de\s+\d{4})/; // Coincide con el formato de fecha: dd de mes de aaaa
+                const fechaMatch = texto.match(regexFecha);
+                const fecha = fechaMatch ? fechaMatch[0] : null;
+
+                // Buscar el beneficiario
+                const regexBeneficiario = /COLONOS\sSAN\sSEBASTIAN\sAC/; // Coincide con "COLONOS SAN SEBASTIAN AC"
+                const beneficiarioMatch = texto.match(regexBeneficiario);
+                const beneficiario = beneficiarioMatch ? beneficiarioMatch[0] : null;
+
+                // Mostrar los datos en el HTML
+                document.getElementById('fechaPago').innerText = fecha || 'No se encontró fecha';
+                document.getElementById('montoPago').innerText = monto || 'No se encontró monto';
+                document.getElementById('beneficiarioPago').innerText = beneficiario || 'No se encontró beneficiario';
+            });
+        });
+    });
+}
+
+function procesarImagen(datos) {
+    Tesseract.recognize(
+        datos,
+        'spa', // Idioma de reconocimiento (puedes cambiarlo según tus necesidades)
+        { logger: m => console.log(m) } // Opciones adicionales, como el registro de mensajes
+    ).then(({ data: { text } }) => {
+        // Imprimir el texto completo reconocido en la consola
+        console.log('Texto reconocido:', text);
+
+        // Buscar el monto
+        const regexMonto = /\$\s?(\d{1,3}(?:[.,]\d{3})*(?:[.,]\d{2}))/; // Coincide con el formato de monto: $XXX,XXX.XX o $XXX.XX
+        const montoMatch = text.match(regexMonto);
+        const monto = montoMatch ? montoMatch[1] : null;
+
+        // Buscar la fecha
+        
+        const regexFecha = /(\d{1,2}\s+de\s+[a-zA-Z]+\s+de\s+\d{4})/; // Coincide con el formato de fecha: dd de mes de aaaa
+        const fechaMatch = text.match(regexFecha);
+        const fecha = fechaMatch ? fechaMatch[0] : null;
+
+        // Buscar el beneficiario
+        const regexBeneficiario = /COLONOS\sSAN\sSEBASTIAN\sAC/; // Coincide con "COLONOS SAN SEBASTIAN AC"
+        const beneficiarioMatch = text.match(regexBeneficiario);
+        const beneficiario = beneficiarioMatch ? beneficiarioMatch[0] : null;
+
+        // Imprimir los datos en la consola
+        console.log('Fecha:', fecha || 'No se encontró fecha');
+        console.log('Monto:', monto || 'No se encontró monto');
+        console.log('Beneficiario:', beneficiario || 'No se encontró beneficiario');
+
+        document.getElementById('fechaPago').innerText = fecha || 'No se encontró fecha';
+        document.getElementById('montoPago').innerText = monto || 'No se encontró monto';
+        document.getElementById('beneficiarioPago').innerText = beneficiario || 'No se encontró beneficiario';
+    });
+}
 
 
 
